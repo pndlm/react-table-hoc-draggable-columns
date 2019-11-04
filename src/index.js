@@ -328,6 +328,7 @@ export default Component => {
 
                   // (draggedColumn, targetColumn, oldIndex, newIndex, oldOffset, newOffset)
                   onDropSuccess(
+                    this.currentColumnOrder,
                     this.currentColumnOrder[this.dragged],
                     this.currentColumnOrder[dropIndex],
                     this.dragged,
@@ -335,6 +336,8 @@ export default Component => {
                     oldOffset,
                     newOffset
                   )
+
+                  this.reorder = []
                 }
 
                 // trigger a re-render
@@ -346,11 +349,14 @@ export default Component => {
               if (onDropSuccess) {
                 // (draggedColumn, targetColumn, oldIndex, newIndex)
                 onDropSuccess(
+                  this.currentColumnOrder,
                   this.currentColumnOrder[this.dragged],
                   this.currentColumnOrder[i],
                   this.dragged,
                   i
                 )
+
+                this.reorder = []
               }
 
               // trigger a re-render
