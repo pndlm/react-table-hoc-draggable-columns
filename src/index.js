@@ -312,7 +312,7 @@ export default Component => {
                   }
                 }
 
-                this.reorder.push({ a: dropIndex, b: this.dragged })
+                this.reorder = { a: dropIndex, b: this.dragged }
 
                 if (onDropSuccess) {
                   const containerOffset = DomHelper.getOffset(this.containerRef.current)
@@ -328,7 +328,7 @@ export default Component => {
 
                   // (draggedColumn, targetColumn, oldIndex, newIndex, oldOffset, newOffset)
                   onDropSuccess(
-                    this.currentColumnOrder,
+                    this.reorder,
                     this.currentColumnOrder[this.dragged],
                     this.currentColumnOrder[dropIndex],
                     this.dragged,
@@ -344,12 +344,12 @@ export default Component => {
                 this.setState({ trigger: Math.random(), firstLoad: false })
               }
             } else if (mode === DragMode.SWAP) {
-              this.reorder.push({ a: i, b: this.dragged })
+              this.reorder = { a: i, b: this.dragged }
 
               if (onDropSuccess) {
                 // (draggedColumn, targetColumn, oldIndex, newIndex)
                 onDropSuccess(
-                  this.currentColumnOrder,
+                  this.reorder,
                   this.currentColumnOrder[this.dragged],
                   this.currentColumnOrder[i],
                   this.dragged,
@@ -470,12 +470,12 @@ export default Component => {
       })
 
       // run all reorder events
-      if (mode && mode === DragMode.SWAP) {
-        this.reorder.forEach(o => (cols[o.a] = cols.splice(o.b, 1, cols[o.a])[0]))
-      } else {
-        // mode: reorder - default
-        this.reorder.forEach(o => cols.splice(o.a, 0, cols.splice(o.b, 1)[0]))
-      }
+      //   if (mode && mode === DragMode.SWAP) {
+      //     this.reorder.forEach(o => (cols[o.a] = cols.splice(o.b, 1, cols[o.a])[0]))
+      //   } else {
+      //     // mode: reorder - default
+      //     this.reorder.forEach(o => cols.splice(o.a, 0, cols.splice(o.b, 1)[0]))
+      //   }
 
       // track final column order
       this.currentColumnOrder = cols

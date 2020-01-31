@@ -497,7 +497,7 @@ var index$1 = (function (Component) {
                     }
                   }
 
-                  _this2.reorder.push({ a: dropIndex, b: _this2.dragged });
+                  _this2.reorder = { a: dropIndex, b: _this2.dragged };
 
                   if (onDropSuccess) {
                     var containerOffset = DomHelper.getOffset(_this2.containerRef.current);
@@ -512,7 +512,7 @@ var index$1 = (function (Component) {
                     newOffset.left = newOffset.left - containerOffset.left;
 
                     // (draggedColumn, targetColumn, oldIndex, newIndex, oldOffset, newOffset)
-                    onDropSuccess(_this2.currentColumnOrder, _this2.currentColumnOrder[_this2.dragged], _this2.currentColumnOrder[dropIndex], _this2.dragged, dropIndex, oldOffset, newOffset);
+                    onDropSuccess(_this2.reorder, _this2.currentColumnOrder[_this2.dragged], _this2.currentColumnOrder[dropIndex], _this2.dragged, dropIndex, oldOffset, newOffset);
 
                     _this2.reorder = [];
                   }
@@ -521,11 +521,11 @@ var index$1 = (function (Component) {
                   _this2.setState({ trigger: Math.random(), firstLoad: false });
                 }
               } else if (mode === DragMode.SWAP) {
-                _this2.reorder.push({ a: i, b: _this2.dragged });
+                _this2.reorder = { a: i, b: _this2.dragged };
 
                 if (onDropSuccess) {
                   // (draggedColumn, targetColumn, oldIndex, newIndex)
-                  onDropSuccess(_this2.currentColumnOrder, _this2.currentColumnOrder[_this2.dragged], _this2.currentColumnOrder[i], _this2.dragged, i);
+                  onDropSuccess(_this2.reorder, _this2.currentColumnOrder[_this2.dragged], _this2.currentColumnOrder[i], _this2.dragged, i);
 
                   _this2.reorder = [];
                 }
@@ -593,7 +593,6 @@ var index$1 = (function (Component) {
         var _draggableColumns$dra = draggableColumns.draggable,
             draggable = _draggableColumns$dra === undefined ? defaultProps.draggable : _draggableColumns$dra,
             _draggableColumns$mod = draggableColumns.mode,
-            mode = _draggableColumns$mod === undefined ? defaultProps.mode : _draggableColumns$mod,
             onDraggedColumnChange = draggableColumns.onDraggedColumnChange,
             _draggableColumns$reo = draggableColumns.reorderIndicatorUpClassName,
             reorderIndicatorUpClassName = _draggableColumns$reo === undefined ? defaultProps.reorderIndicatorUpClassName : _draggableColumns$reo,
@@ -639,16 +638,12 @@ var index$1 = (function (Component) {
         });
 
         // run all reorder events
-        if (mode && mode === DragMode.SWAP) {
-          this.reorder.forEach(function (o) {
-            return cols[o.a] = cols.splice(o.b, 1, cols[o.a])[0];
-          });
-        } else {
-          // mode: reorder - default
-          this.reorder.forEach(function (o) {
-            return cols.splice(o.a, 0, cols.splice(o.b, 1)[0]);
-          });
-        }
+        //   if (mode && mode === DragMode.SWAP) {
+        //     this.reorder.forEach(o => (cols[o.a] = cols.splice(o.b, 1, cols[o.a])[0]))
+        //   } else {
+        //     // mode: reorder - default
+        //     this.reorder.forEach(o => cols.splice(o.a, 0, cols.splice(o.b, 1)[0]))
+        //   }
 
         // track final column order
         this.currentColumnOrder = cols;
