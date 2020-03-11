@@ -46,8 +46,6 @@ export default Component => {
         trigger: 0,
         firstLoad: true
       }
-
-      this.uniqueId = generateUuid()
     }
 
     // helper methods
@@ -68,7 +66,7 @@ export default Component => {
     createDragEvents() {
       const headersCollection = DomHelper.findChildrenWithClassName(
         this.containerRef.current,
-        `${this.uniqueId} draggable-header`
+        `draggable-header`
       )
 
       // convert HTML collection to Javascript array
@@ -444,25 +442,15 @@ export default Component => {
       )
 
       const cols = columns.map(col => {
-        let headerClassName = `${this.uniqueId}`
-
-        // add additional className if column is draggable enabled
-        if (
-          (draggable.length > 0 && draggable.includes(col.id)) ||
-          draggable.includes(col.accessor)
-        ) {
-          headerClassName = `${headerClassName}`
-        }
-
         return {
           ...col,
           Header:
             typeof col.Header === 'function' ? (
-              <div onClick={this.stopPropagation} className={headerClassName}>
+              <div onClick={this.stopPropagation}>
                 {col.Header()}
               </div>
             ) : (
-              <div onClick={this.stopPropagation} className={headerClassName}>
+              <div onClick={this.stopPropagation}>
                 {col.Header}
               </div>
             )

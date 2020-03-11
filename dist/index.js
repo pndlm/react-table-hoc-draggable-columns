@@ -205,22 +205,7 @@ var DragMode = {
   /**
    * Generate UuId
    * */
-};var generateUuid = function generateUuid() {
-  var uuid = '';
-  var i = void 0;
-  var random = void 0;
-  for (i = 0; i < 32; i++) {
-    random = Math.random() * 16 | 0;
-
-    if (i === 8 || i === 12 || i === 16 || i === 20) {
-      uuid += '-';
-    }
-    uuid += (i === 12 ? 4 : i === 16 ? random & 3 | 8 : random).toString(16);
-  }
-
-  return uuid;
 };
-
 var index$1 = (function (Component) {
   var wrapper = function (_React$Component) {
     inherits(RTFixedDraggableColumn, _React$Component);
@@ -250,8 +235,6 @@ var index$1 = (function (Component) {
         trigger: 0,
         firstLoad: true
       };
-
-      _this.uniqueId = generateUuid();
       return _this;
     }
 
@@ -279,7 +262,7 @@ var index$1 = (function (Component) {
       value: function createDragEvents() {
         var _this2 = this;
 
-        var headersCollection = DomHelper.findChildrenWithClassName(this.containerRef.current, this.uniqueId + ' draggable-header');
+        var headersCollection = DomHelper.findChildrenWithClassName(this.containerRef.current, 'draggable-header');
 
         // convert HTML collection to Javascript array
         var headers = [].concat(toConsumableArray(headersCollection));
@@ -597,7 +580,6 @@ var index$1 = (function (Component) {
             draggableColumns = _props.draggableColumns,
             rest = objectWithoutProperties(_props, ['columns', 'draggableColumns']);
         var _draggableColumns$dra = draggableColumns.draggable,
-            draggable = _draggableColumns$dra === undefined ? defaultProps.draggable : _draggableColumns$dra,
             _draggableColumns$mod = draggableColumns.mode,
             onDraggedColumnChange = draggableColumns.onDraggedColumnChange,
             _draggableColumns$reo = draggableColumns.reorderIndicatorUpClassName,
@@ -623,21 +605,14 @@ var index$1 = (function (Component) {
         });
 
         var cols = columns.map(function (col) {
-          var headerClassName = '' + _this3.uniqueId;
-
-          // add additional className if column is draggable enabled
-          if (draggable.length > 0 && draggable.includes(col.id) || draggable.includes(col.accessor)) {
-            headerClassName = '' + headerClassName;
-          }
-
           return _extends({}, col, {
             Header: typeof col.Header === 'function' ? React.createElement(
               'div',
-              { onClick: _this3.stopPropagation, className: headerClassName },
+              { onClick: _this3.stopPropagation },
               col.Header()
             ) : React.createElement(
               'div',
-              { onClick: _this3.stopPropagation, className: headerClassName },
+              { onClick: _this3.stopPropagation },
               col.Header
             )
           });
