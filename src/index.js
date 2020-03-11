@@ -444,14 +444,14 @@ export default Component => {
       )
 
       const cols = columns.map(col => {
-        let headerClassName = `${this.uniqueId} draggable-header`
+        let headerClassName = `${this.uniqueId}`
 
         // add additional className if column is draggable enabled
         if (
           (draggable.length > 0 && draggable.includes(col.id)) ||
           draggable.includes(col.accessor)
         ) {
-          headerClassName = `${headerClassName} enable-drag`
+          headerClassName = `${headerClassName}`
         }
 
         return {

@@ -623,11 +623,11 @@ var index$1 = (function (Component) {
         });
 
         var cols = columns.map(function (col) {
-          var headerClassName = _this3.uniqueId + ' draggable-header';
+          var headerClassName = '' + _this3.uniqueId;
 
           // add additional className if column is draggable enabled
           if (draggable.length > 0 && draggable.includes(col.id) || draggable.includes(col.accessor)) {
-            headerClassName = headerClassName + ' enable-drag';
+            headerClassName = '' + headerClassName;
           }
 
           return _extends({}, col, {
